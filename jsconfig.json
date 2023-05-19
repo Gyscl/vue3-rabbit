@@ -1,0 +1,9 @@
+//别名路径联想设置
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}
