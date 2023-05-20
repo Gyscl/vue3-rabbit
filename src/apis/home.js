@@ -14,7 +14,6 @@ export function getBannerAPI() {
  * @param {*}
  * @return {*}
  */
-
 export function findNewAPI(){
   return httpInstance({
     url:"/home/new"
@@ -26,7 +25,6 @@ export function findNewAPI(){
  * @param {*}
  * @return {*}
  */
-
 export function getHotAPI(){
   return httpInstance({
     url:"/home/hot"
