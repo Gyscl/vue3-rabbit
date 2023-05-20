@@ -1,33 +1,40 @@
 <script setup>
+import { getCategoryAPI } from "@/apis/layout";
+import { onMounted ,ref} from "vue";
 
+const categoryList=ref([])
+const getCategory = async () => {
+  const res = await getCategoryAPI();
+  console.log(res);
+  categoryList.value=res.result
+};
+
+onMounted(() => {
+  getCategory();
+});
 </script>
 
 <template>
-  <header class='app-header'>
+  <header class="app-header">
     <div class="container">
       <h1 class="logo">
         <RouterLink to="/">小兔鲜</RouterLink>
       </h1>
       <ul class="app-header-nav">
-        <li class="home">
-          <RouterLink to="/">首页</RouterLink>
+        <li class="home" v-for="item in categoryList " :key="item.id">
+          <RouterLink to="/">{{item.name}}</RouterLink>
         </li>
-        <li> <RouterLink to="/">居家</RouterLink> </li>
-        <li> <RouterLink to="/">美食</RouterLink> </li>
-        <li> <RouterLink to="/">服饰</RouterLink> </li>
       </ul>
       <div class="search">
         <i class="iconfont icon-sousuo_o"></i>
-        <input type="text" placeholder="搜一搜">
+        <input type="text" placeholder="搜一搜" />
       </div>
       <!-- 头部购物车 -->
-      
     </div>
   </header>
 </template>
 
-
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .app-header {
   background: #fff;
 
@@ -44,7 +51,8 @@
       height: 132px;
       width: 100%;
       text-indent: -9999px;
-      background: url('@/assets/images/logo.png') no-repeat center 18px / contain;
+      background: url("@/assets/images/logo.png") no-repeat center 18px /
+        contain;
     }
   }
 
@@ -54,24 +62,24 @@
     padding-left: 40px;
     position: relative;
     z-index: 998;
-  
+
     li {
       margin-right: 40px;
       width: 38px;
       text-align: center;
-  
+
       a {
         font-size: 16px;
         line-height: 32px;
         height: 32px;
         display: inline-block;
-  
+
         &:hover {
           color: $xtxColor;
           border-bottom: 1px solid $xtxColor;
         }
       }
-  
+
       .active {
         color: $xtxColor;
         border-bottom: 1px solid $xtxColor;
