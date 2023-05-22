@@ -1,25 +1,44 @@
-<script setup> 
-import {ref,onMounted}from 'vue'
-import {getCategoryFilterAPI} from '@/apis/category'
-import {useRoute} from 'vue-router'
+<script setup>
+import { ref, onMounted } from "vue";
+import { getCategoryFilterAPI, getSubCategoryAPI } from "@/apis/category";
+import { useRoute } from "vue-router";
+import GoodsItem from "@/views/Home/components/GoodsItem.vue";
 
-const route=useRoute()
-const categoryData=ref([])
-const getCategoryFilter=async()=>{
-    const res=await getCategoryFilterAPI(route.params.id)
-    categoryData.value=res.result
-}
-onMounted(() =>getCategoryFilter())
+//获取面包屑导航数据
+const route = useRoute();
+const categoryData = ref([]);
+const getCategoryFilter = async () => {
+  const res = await getCategoryFilterAPI(route.params.id);
+  categoryData.value = res.result;
+};
+onMounted(() => getCategoryFilter());
+
+//获取基础列表数据渲染
+const goodList = ref([]);
+const reqData = ref({
+  categoryId: route.params.id,
+  page: 1,
+  pageSize: 20,
+  sortField: "publishTime",
+});
+const getGoodList = async () => {
+  const res = await getSubCategoryAPI(reqData.value);
+  goodList.value = res.result.items;
+};
+onMounted(() => getGoodList());
 </script>
 
 <template>
-  <div class="container ">
+  <div class="container">
     <!-- 面包屑 -->
     <div class="bread-container">
       <el-breadcrumb separator=">">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: `/category/${categoryData.parentId}` }">{{categoryData.parentName}}</el-breadcrumb-item>
-        <el-breadcrumb-item>{{categoryData.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item
+          :to="{ path: `/category/${categoryData.parentId}` }"
+          >{{ categoryData.parentName }}</el-breadcrumb-item
+        >
+        <el-breadcrumb-item>{{ categoryData.name }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="sub-container">
@@ -29,14 +48,12 @@ onMounted(() =>getCategoryFilter())
         <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
       </el-tabs>
       <div class="body">
-         <!-- 商品列表-->
+        <!-- 商品列表-->
+        <GoodsItem v-for="goods in goodList" :key="goods.id" :goods="goods" />
       </div>
     </div>
   </div>
-
 </template>
-
-
 
 <style lang="scss" scoped>
 .bread-container {
@@ -90,7 +107,5 @@ onMounted(() =>getCategoryFilter())
     display: flex;
     justify-content: center;
   }
-
-
 }
 </style>

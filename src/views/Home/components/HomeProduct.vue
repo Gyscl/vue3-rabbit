@@ -13,7 +13,7 @@ const getGoods=async ()=>{
 onMounted(() => {
     getGoods()
 })
-</script>
+</script> 
 
 <template>
   <div class="home-product">
@@ -31,7 +31,7 @@ onMounted(() => {
             <GoodsItem :goods="goods"/>
           </li>
         </ul>
-      </div>
+      </div> 
     </HomePanel>
   </div>
 </template>
