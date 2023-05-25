@@ -8,18 +8,19 @@ import GoodsItem from './GoodsItem.vue'
 const goodsProduct=ref([])
 const getGoods=async ()=>{
     const res=await getGoodsAPI()
+    console.log("111",res);
     goodsProduct.value=res.result
 }
 onMounted(() => {
     getGoods()
 })
 </script> 
-
+ 
 <template>
   <div class="home-product">
     <HomePanel :title="cate.name" v-for="cate in goodsProduct" :key="cate.id">
       <div class="box">
-        <RouterLink class="cover" to="/">
+        <RouterLink class="cover" :to="`/category/${cate.id}`">
           <img v-img-lazy="cate.picture" />
           <strong class="label">
             <span>{{ cate.name }}馆</span>
