@@ -20,6 +20,6 @@ export const useUserStore = defineStore(
     };
   },
   {
-    persist: true, //存入localStorage
+    persist: true, //在设置state时会自动把数据同步到localStorage，在获取state数据时会优先从localStorage中获取
   }
 );

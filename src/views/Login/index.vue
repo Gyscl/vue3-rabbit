@@ -1,68 +1,65 @@
 <script setup>
 //表单校验（账户名+密码）
-import {ref} from 'vue'
-import { ElMessage } from 'element-plus'
-import 'element-plus/theme-chalk/el-message.css'
-import {useRouter} from 'vue-router'
+import { ref } from "vue";
+import { ElMessage } from "element-plus";
+import "element-plus/theme-chalk/el-message.css";
+import { useRouter } from "vue-router";
 
-import {useUserStore} from '@/stores/user'
-const userStore=useUserStore()
+import { useUserStore } from "@/stores/user";
+const userStore = useUserStore();
 
 //1.准备表达对象
-const form=ref({
-  account:'18610848230',
-  password:'123456',
-  agree:true
-})
+const form = ref({
+  account: "12056258282",
+  password: "hm#qd@23!",
+  agree: true,
+});
 //2.准备规则对象
-const rules=ref({
-  account:[
-    {required:true,message:'用户名不能为空',trigger:'blur'}
+const rules = ref({
+  account: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
+  password: [
+    { required: true, message: "密码不能为空", trigger: "blur" },
+    { min: 6, max: 14, message: "密码长度为6-14个字符", trigger: "blur" },
   ],
-  password:[
-    {required:true,message:'密码不能为空',trigger:'blur'},
-    {min:6,max:14,message:'密码长度为6-14个字符',trigger:'blur'}
-  ],
-  agree:[
+  agree: [
     {
-      validator:(rule,value,callback)=>{
+      validator: (rule, value, callback) => {
         //自定义校验逻辑
         //勾选就通过，不勾选就不通过
-        if(value){
-          callback()
-        }else{
-          callback(new Error('请勾选协议'))
+        if (value) {
+          callback();
+        } else {
+          callback(new Error("请勾选协议"));
         }
-      }
-    }
-  ]
-})
+      },
+    },
+  ],
+});
 
 //3.获取form实例做统一校验
-const formRef=ref(null)
-const router=useRouter()
-const doLogin=()=>{
-  const {account,password}=form.value
+const formRef = ref(null);
+const router = useRouter();
+const doLogin = () => {
+  const { account, password } = form.value;
   //调用实例方法
-  formRef.value.validate(async (valid)=>{
+  formRef.value.validate(async (valid) => {
     //valid:所有表单都通过校验 才为true
     // console.log(valid);
     //以valid做判断条件 才执行登录逻辑
-    if(valid){
-      await userStore.getUserInfo({account,password})   
-      //1.提示用户
-      ElMessage({type:'success',message:'登录成功'})
-      //2.跳转首页
-      router.replace({path:'/'})
+    if (valid) {
+      await userStore.getUserInfo({ account, password });
+      // //1.提示用户
+      ElMessage({ type: "success", message: "登录成功" });
+      // //2.跳转首页
+      router.replace({ path: "/" });
     }
-  })
-}
+  });
+};
 
 //1.用户名和密码  只需要通过简单的配置（看文档的方式-复杂功能通过多个不同组件拆解）
 //2.同意协议  自定义规则 validator:(rule,value,callback)=>{}
 //3.统一校验  通过调用form实例的方法 validate->true
 </script>
-
 
 <template>
   <div>
@@ -81,24 +78,32 @@ const doLogin=()=>{
     <section class="login-section">
       <div class="wrapper">
         <nav>
-          <a href="javascript:;">账户登录</a> 
+          <a href="javascript:;">账户登录</a>
         </nav>
         <div class="account-box">
           <div class="form">
-            <el-form ref="formRef" :model="form" :rules="rules" label-position="right" label-width="60px"
-              status-icon>
-              <el-form-item  label="账户" prop="account">
-                <el-input v-model="form.account"/>
+            <el-form
+              ref="formRef"
+              :model="form"
+              :rules="rules"
+              label-position="right"
+              label-width="60px"
+              status-icon
+            >
+              <el-form-item label="账户" prop="account">
+                <el-input v-model="form.account" />
               </el-form-item>
               <el-form-item label="密码" prop="password">
-                <el-input v-model="form.password"/>
+                <el-input v-model="form.password" />
               </el-form-item>
               <el-form-item label-width="22px" prop="agree">
-                <el-checkbox  size="large" v-model="form.agree">
+                <el-checkbox size="large" v-model="form.agree">
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>
-              <el-button size="large" class="subBtn" @click="doLogin">点击登录</el-button>
+              <el-button size="large" class="subBtn" @click="doLogin"
+                >点击登录</el-button
+              >
             </el-form>
           </div>
         </div>
@@ -122,7 +127,7 @@ const doLogin=()=>{
   </div>
 </template>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .login-header {
   background: #fff;
   border-bottom: 1px solid #e4e4e4;
@@ -141,7 +146,8 @@ const doLogin=()=>{
       height: 132px;
       width: 100%;
       text-indent: -9999px;
-      background: url("@/assets/images/logo.png") no-repeat center 18px / contain;
+      background: url("@/assets/images/logo.png") no-repeat center 18px /
+        contain;
     }
   }
 
@@ -168,7 +174,7 @@ const doLogin=()=>{
 }
 
 .login-section {
-  background: url('@/assets/images/login-bg.png') no-repeat center / cover;
+  background: url("@/assets/images/login-bg.png") no-repeat center / cover;
   height: 488px;
   position: relative;
 
@@ -218,7 +224,7 @@ const doLogin=()=>{
       color: #999;
       display: inline-block;
 
-      ~a {
+      ~ a {
         border-left: 1px solid #ccc;
       }
     }
@@ -249,7 +255,7 @@ const doLogin=()=>{
         position: relative;
         height: 36px;
 
-        >i {
+        > i {
           width: 34px;
           height: 34px;
           background: #cfcdcd;
@@ -294,7 +300,7 @@ const doLogin=()=>{
         }
       }
 
-      >.error {
+      > .error {
         position: absolute;
         font-size: 12px;
         line-height: 28px;
