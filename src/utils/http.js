@@ -3,7 +3,8 @@ import axios from "axios";
 import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
 import { useUserStore } from "@/stores/user";
-import router from "@/router";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const httpInstance = axios.create({
   baseURL: "http://pcapi-xiaotuxian-front-devtest.itheima.net",
@@ -35,7 +36,7 @@ httpInstance.interceptors.response.use(
       type: "warning",
       message: e.response.data.message,
     });
-    
+
     //401token失效处理
     if (e.response.status === 401) {
       //1.清除本地用户数据
