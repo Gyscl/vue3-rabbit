@@ -41,7 +41,7 @@ const allCheck=(selected)=>{
               </td>
               <td>
                 <div class="goods">
-                  <RouterLink to="/"><img :src="i.picture" alt="" /></RouterLink>
+                  <RouterLink :to="`/detail/${i.id}`"><img :src="i.picture" alt="" /></RouterLink>
                   <div>
                     <p class="name ellipsis">
                       {{ i.name }}
@@ -56,11 +56,11 @@ const allCheck=(selected)=>{
                 <el-input-number v-model="i.count" />
               </td>
               <td class="tc">
-                <p class="f16 red">&yen;{{ cartStore.allPrice.toFixed(2) }}</p>
+                <p class="f16 red">&yen;{{ i.price*i.count.toFixed(2) }}</p>
               </td>
               <td class="tc">
                 <p>
-                  <el-popconfirm title="确认删除吗?" confirm-button-text="确认" cancel-button-text="取消" @confirm="delCart(i)">
+                  <el-popconfirm title="确认删除吗?" confirm-button-text="确认" cancel-button-text="取消" @confirm="cartStore.delCart(i.skuId)">
                     <template #reference>
                       <a href="javascript:;">删除</a>
                     </template>
