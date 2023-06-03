@@ -46,6 +46,10 @@ export const useCartStore = defineStore(
     const allCount = computed(()=>cartList.value.reduce((a,c)=>a+c.count,0))
     //2.总价
     const allPrice = computed(()=>cartList.value.reduce((a,c)=>a+c.count*c.price,0))
+    //3.已选择数量
+    const selectedCount=computed(()=>cartList.value.filter(item=>item.selected).reduce((a,c)=>a+c.count,0))
+    //4.已选择商品价格合计
+    const selectedPrice=computed(()=>cartList.value.filter(item=>item.selected).reduce((a,c)=>a+c.count*c.price,0))
 
     //是否全选
     const isAll=computed(()=>cartList.value.every((item)=>item.selected))
@@ -54,6 +58,8 @@ export const useCartStore = defineStore(
       allCount,
       allPrice,
       isAll,
+      selectedCount,
+      selectedPrice,
       addCart,
       delCart,  
       singleCheck,
