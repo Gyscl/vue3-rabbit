@@ -10,7 +10,7 @@ const userStore = useUserStore();
 
 //1.准备表达对象
 const form = ref({
-  account: "12056258293",
+  account: "12056258288",
   password: "hm#qd@23!",
   agree: true,
 });
